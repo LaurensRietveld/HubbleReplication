@@ -78,6 +78,8 @@ public class EntryPoint extends Application {
 		//The form part is missing here... Need to append this again in the EndpointRedirector class
 		routeVariables.put("uriPath", new Variable(Variable.TYPE_ALL)); 
 		// System.out.println(Util.isReachable("http://www.google.com"));
+		
+		//router.attachDefault(new Redirector(getContext(), "war:///index.html"));
 		return router;
 	}
 

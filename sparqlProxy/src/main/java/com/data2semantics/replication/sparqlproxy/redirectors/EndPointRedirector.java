@@ -19,8 +19,16 @@ public class EndPointRedirector extends Redirector {
 	protected Reference getTargetRef(Request request, Response response) {
 		Reference reference = super.getTargetRef(request, response);
 		String rr = reference.toString();
-		getLogger().severe("Form: " + request.getResourceRef().getQuery());
-		rr += "?" + request.getResourceRef().getQuery(true);
+		
+		if (!rr.startsWith("http://")) {
+			rr = "http://" + rr;
+		}
+		
+		
+		if (request.getResourceRef().hasQuery()) {
+			getLogger().severe("Form: " + request.getResourceRef().getQuery());
+			rr += "?" + request.getResourceRef().getQuery(true);
+		}
 		return new Reference(rr);
 	}
 }
