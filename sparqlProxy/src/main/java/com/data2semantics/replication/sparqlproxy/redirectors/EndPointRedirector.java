@@ -10,8 +10,8 @@ import org.restlet.routing.Redirector;
 import com.data2semantics.replication.sparqlproxy.util.Util;
 
 public class EndPointRedirector extends Redirector {
-//	private static String ENDPOINT_LOCAL = "http://localhost:8080/openrdf-workbench/repositories/localrep/query";
-	private static String ENDPOINT_LOCAL = "http://yahoo.com";
+	private static String ENDPOINT_LOCAL = "http://localhost:8080/openrdf-workbench/repositories/localrep/query";
+//	private static String ENDPOINT_LOCAL = "http://yahoo.com";
 	private String endpointUri = "";
 	
 	public EndPointRedirector(Context context, String targetTemplate) {
@@ -40,14 +40,14 @@ public class EndPointRedirector extends Redirector {
 	}
 
 	private void decideUri() throws IOException, InterruptedException {
-		if (!Util.isReachable(endpointUri.substring("http://".length()))) {
+		if (!Util.isReachable(endpointUri)) {
 			endpointUri = ENDPOINT_LOCAL;
 		}
+		getLogger().severe("Redirecting to: " + endpointUri);
 	}
 	
 	private void appendQuery(Request request) {
 		if (request.getResourceRef().hasQuery()) {
-			getLogger().severe("Form: " + request.getResourceRef().getQuery());
 			endpointUri += "?" + request.getResourceRef().getQuery(true);
 		}
 	}

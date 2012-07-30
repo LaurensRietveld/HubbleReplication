@@ -1,6 +1,9 @@
 package com.data2semantics.replication.sparqlproxy.util;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 import org.restlet.data.MediaType;
@@ -20,8 +23,17 @@ public class Util {
 	}
 
 	public static boolean isReachable(String uri) throws IOException, InterruptedException {
-		Process p1 = Runtime.getRuntime().exec("ping -c 1 " + uri);
-		int returnVal = p1.waitFor();
-		return (returnVal == 0);
+		boolean available;
+		try{
+		    final URLConnection connection = new URL(uri).openConnection();
+		    connection.setConnectTimeout(300);
+		    connection.connect();
+		    available = true;
+		} catch(final MalformedURLException e){
+		    throw new IllegalStateException("Bad URL: " + uri, e);
+		} catch(final IOException e){
+		    available = false;
+		}
+		return available;
 	}
 }

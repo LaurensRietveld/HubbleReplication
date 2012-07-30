@@ -72,7 +72,8 @@ public class EntryPoint extends Application {
 
 	private Restlet createRouter() {
 		Router router = new Router(getContext());
-		Redirector redirector = new EndPointRedirector(getContext(), "{uriPath}", Redirector.MODE_CLIENT_FOUND);
+		Redirector redirector = new EndPointRedirector(getContext(), "{uriPath}", Redirector.MODE_CLIENT_SEE_OTHER);
+		
 		TemplateRoute route = router.attach("/{uriPath}", redirector);
 		Map<String, Variable> routeVariables = route.getTemplate().getVariables();
 		//The form part is missing here... Need to append this again in the EndpointRedirector class

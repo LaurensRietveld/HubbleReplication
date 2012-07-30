@@ -76,7 +76,7 @@
 		</repository>
 	</repositories>
 	<build>
-		<finalName>sparqlproxy</finalName>
+		<finalName>sparqlProxy</finalName>
 		<plugins>
 	      <plugin>
 	        <artifactId>maven-compiler-plugin</artifactId>
@@ -90,10 +90,12 @@
 	      	<artifactId>tomcat6-maven-plugin</artifactId>
 	      	<version>2.0-beta-1</version>
 	      	<configuration>
-                     <server>myserver</server>
-                     <path>/</path>
+	      			<url>http://localhost:8080/manager</url>
+                     <server>tomcatServer</server>
+                     <path>/sparqlProxy</path>
             </configuration>
 	      </plugin>
+
 		</plugins>
 	</build>
 </project>
