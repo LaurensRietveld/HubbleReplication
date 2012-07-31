@@ -20,6 +20,7 @@ public class ErrorStatusService extends StatusService {
 	@Override
 	public Representation getRepresentation(Status status, Request request, Response response) {
 	    String text;
+	    
 	    if (status.getDescription() != null) {
 	        text = status.getDescription();
 	    } else {

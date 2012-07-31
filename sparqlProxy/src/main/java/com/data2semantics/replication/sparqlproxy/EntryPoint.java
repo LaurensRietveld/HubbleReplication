@@ -2,8 +2,6 @@ package com.data2semantics.replication.sparqlproxy;
 
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import freemarker.template.Configuration;
 import org.restlet.Application;
 import org.restlet.Request;
@@ -24,8 +22,6 @@ import com.typesafe.config.ConfigFactory;
 public class EntryPoint extends Application {
 	private Configuration fmConfiguration; // Freemarker Configuration
 	private Config config;// Typesafe config
-	@SuppressWarnings("unused")
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * Creates a root Restlet that will receive all incoming calls.
@@ -40,9 +36,6 @@ public class EntryPoint extends Application {
 		// Allow Accept-parameters to override Accept-headers:
 		router = new EndPointFilter(getContext(), router);
 
-		// Activate content filtering based on extensions. Trick from Christophe
-		// for content negotiation. Not needed for now
-		// getTunnelService().setExtensionsTunnel(true);
 		return router;
 	}
 
@@ -72,7 +65,7 @@ public class EntryPoint extends Application {
 
 	private Restlet createRouter() {
 		Router router = new Router(getContext());
-		Redirector redirector = new EndPointRedirector(getContext(), "{uriPath}", Redirector.MODE_CLIENT_SEE_OTHER);
+		Redirector redirector = new EndPointRedirector(getContext(), "{uriPath}", Redirector.MODE_CLIENT_TEMPORARY);
 		
 		TemplateRoute route = router.attach("/{uriPath}", redirector);
 		Map<String, Variable> routeVariables = route.getTemplate().getVariables();

@@ -22,12 +22,17 @@ public class EndPointFilter extends Filter {
 			return Filter.STOP;
 		}
 		
+		//Do not check for query. Something (bug?) goes wrong here with very long queries: in such cases hasQuery returns false.
+		//Somehow, in the redirection phase, this check does work
+		/*
 		if (!request.getResourceRef().hasQuery()) {
 			response.setStatus(Status.CLIENT_ERROR_BAD_REQUEST, "No SPARQL query provided");
 			return Filter.STOP;
-		}
+		}*/
 
 		return Filter.CONTINUE;
 	}
+	
+	
 
 }
