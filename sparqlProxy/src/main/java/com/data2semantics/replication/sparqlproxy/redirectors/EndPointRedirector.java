@@ -4,6 +4,7 @@ import java.io.IOException;
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
+import org.restlet.data.Form;
 import org.restlet.data.Reference;
 import org.restlet.routing.Redirector;
 
@@ -47,8 +48,19 @@ public class EndPointRedirector extends Redirector {
 	
 	private void appendQuery(Request request) throws IOException {
 		if (request.getResourceRef().hasQuery()) {
-			endpointUri += "?" + request.getResourceRef().getQuery();
+			Form form = request.getResourceRef().getQueryAsForm();
+			String queryString = rewriteQuery(form.getFirstValue("query"));
+			getLogger().severe("queryString: " + queryString);
+			form.set("query", queryString);
+			endpointUri += "?" + form.getQueryString();
 			getLogger().severe("result uri: " + endpointUri);
 		}
+	}
+	
+	private String rewriteQuery(String queryString) {
+		String pattern = "(.*SELECT.+)\\s*(WHERE|)(\\s*\\{.*)";
+		String replacePattern = "$1 FROM <http://eculture2\\.cs\\.vu\\.nl:5020/sparql/> $3";
+		queryString = queryString.replaceAll(pattern, replacePattern);
+		return queryString;
 	}
 }
