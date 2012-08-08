@@ -30,28 +30,32 @@ public class EndPointRedirector extends Redirector {
 			endpointUri = "http://" + endpointUri;
 		}
 		try {
-			decideUri();
-			appendQuery(request);
+			boolean reachable = Util.isReachable(endpointUri);
+			decideUri(reachable);
+			appendQueryToString(request, reachable);
 		} catch (Exception e) {
 			throw new RedirectException(e.getMessage());
 		}
 		
 		return new Reference(endpointUri);
 	}
-
-	private void decideUri() throws IOException, InterruptedException {
-		if (!Util.isReachable(endpointUri)) {
+	
+	private void decideUri(boolean reachable) {
+		if (!reachable) {
 			endpointUri = ENDPOINT_LOCAL;
 		}
 		getLogger().severe("Redirecting to: " + endpointUri);
 	}
+
 	
-	private void appendQuery(Request request) throws IOException {
+	private void appendQueryToString(Request request, boolean reachable) throws IOException {
 		if (request.getResourceRef().hasQuery()) {
 			Form form = request.getResourceRef().getQueryAsForm();
-			String queryString = rewriteQuery(form.getFirstValue("query"));
-			getLogger().severe("queryString: " + queryString);
-			form.set("query", queryString);
+			if (!reachable) {
+				String queryString = rewriteQuery(form.getFirstValue("query"));
+				getLogger().severe("queryString: " + queryString);
+				form.set("query", queryString);
+			}
 			endpointUri += "?" + form.getQueryString();
 			getLogger().severe("result uri: " + endpointUri);
 		}
