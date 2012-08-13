@@ -2,9 +2,9 @@ package com.data2semantics.replication.localDaemon.queries;
 
 import com.data2semantics.replication.localDaemon.Helper;
 
-public class Query5a {
+public class Query5a  implements Query  {
 
-	public static String getInsertQuery() {
+	public String getInsertQuery() {
 		return Helper.PREFIXES_AERS + "INSERT { GRAPH <http://eculture2.cs.vu.nl:5020/sparql/> {\n"
 				+ "?indicationLabel :reaction_of ?report.\n" + "	?report :age ?age;\n" + "		:event_date ?eventDate;\n"
 				+ "		:gender ?gender;\n" + "		:manufacturer ?manufacturer.\n" + "	?involvement :involved_in ?report;\n"
@@ -21,7 +21,7 @@ public class Query5a {
 				+ "	?drugBankUri rdfs:label ?drugLabel.\n" + "\n" + "}}\n" + "";
 	}
 
-	public static String getSelectAllQuery() {
+	public String getSelectAllQuery() {
 		return Helper.PREFIXES_AERS + "SELECT * {\n"
 				+ "	{?indicationLabel :reaction_of ?report.} UNION { ?indicationUri skos:exactMatch ?ind . ?ind :reaction_of ?report . }\n"
 				+ "	?report :age ?age;\n" + "		:event_date ?eventDate;\n" + "		:gender ?gender;\n" + "		:manufacturer ?manufacturer.\n"
@@ -32,7 +32,7 @@ public class Query5a {
 				+ "	?drugBankUri rdfs:label ?drugLabel.\n" + "}\n" + "LIMIT 100";
 	}
 
-	public static String getSelectExampleQuery() {
+	public String getSelectExampleQuery() {
 		String indicationLabel = "NEUTROPENIA";
 		String indicationUri = "http://aers.data2semantics.org/resource/diagnosis/NEUTROPENIA";
 		return Helper.PREFIXES_AERS + "\n" + 
@@ -63,7 +63,7 @@ public class Query5a {
 				"LIMIT 100";
 	}
 
-	public static String getConstructQuery() {
+	public String getConstructQuery() {
 		// TODO Auto-generated method stub
 		return null;
 	}

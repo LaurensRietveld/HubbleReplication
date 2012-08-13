@@ -13,32 +13,40 @@ public class UpdateReplica {
 
 	public static void update() {
 		String queryString = "";
-		
-		
-		queryString = Query1.getInsertQuery();
+		Query query;
+		query = new Query1();
+		queryString = query.getInsertQuery();
 		Helper.executeUpdateQuery(Helper.ENDPOINT_REPLICA_UPDATE, queryString);
 		
-		queryString = Query2.getInsertQuery();
+		query = new Query2();
+		queryString = query.getInsertQuery();
 		Helper.executeUpdateQuery(Helper.ENDPOINT_REPLICA_UPDATE, queryString);
 		
-		queryString = Query3.getInsertQuery();
+		query = new Query3();
+		queryString = query.getInsertQuery();
 		Helper.executeUpdateQuery(Helper.ENDPOINT_REPLICA_UPDATE, queryString);
 		
-		queryString = Query4.getInsertQuery();
+		query = new Query4();
+		queryString = query.getInsertQuery();
 		Helper.executeUpdateQuery(Helper.ENDPOINT_REPLICA_UPDATE, queryString);
 		
-		queryString = Query5a.getInsertQuery();
+		query = new Query5a();
+		queryString = query.getInsertQuery();
 		Helper.executeUpdateQuery(Helper.ENDPOINT_REPLICA_UPDATE, queryString);
-		queryString = Query5b.getInsertQuery();
-		Helper.executeUpdateQuery(Helper.ENDPOINT_REPLICA_UPDATE, queryString);
-		
-		queryString = Query6.getInsertQuery();
-		Helper.executeUpdateQuery(Helper.ENDPOINT_REPLICA_UPDATE, queryString);
-		
-		queryString = Query7.getInsertQuery();
+		query = new Query5b();
+		queryString = query.getInsertQuery();
 		Helper.executeUpdateQuery(Helper.ENDPOINT_REPLICA_UPDATE, queryString);
 		
-		queryString = Query8.getInsertQuery();
+		query = new Query6();
+		queryString = query.getInsertQuery();
+		Helper.executeUpdateQuery(Helper.ENDPOINT_REPLICA_UPDATE, queryString);
+		
+		query = new Query7();
+		queryString = query.getInsertQuery();
+		Helper.executeUpdateQuery(Helper.ENDPOINT_REPLICA_UPDATE, queryString);
+		
+		query = new Query8();
+		queryString = query.getInsertQuery();
 		Helper.executeUpdateQuery(Helper.ENDPOINT_REPLICA_UPDATE, queryString);
 	}
 

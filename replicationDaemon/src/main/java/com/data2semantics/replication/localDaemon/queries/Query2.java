@@ -2,9 +2,9 @@ package com.data2semantics.replication.localDaemon.queries;
 
 import com.data2semantics.replication.localDaemon.Helper;
 
-public class Query2 {
+public class Query2  implements Query {
 
-	public static String getInsertQuery() {
+	public String getInsertQuery() {
 		return Helper.PREFIXES_AERS
 				+ "INSERT { GRAPH <http://eculture2.cs.vu.nl:5020/sparql/> {\n"
 				+ "?patient rdf:type patient:Patient.\n"
@@ -39,7 +39,7 @@ public class Query2 {
 				+ "}.\n" + "OPTIONAL{?patient patient:hadPreviousIndication ?previousIndication}.\n" + "\n" + "}}";
 	}
 
-	public static String getSelectAllQuery() {
+	public String getSelectAllQuery() {
 		return Helper.PREFIXES_AERS
 				+ "SELECT DISTINCT ?age \n"
 				+ "?comment \n"
@@ -66,7 +66,7 @@ public class Query2 {
 				+ "}.\n" + "OPTIONAL{?patient patient:hadPreviousIndication ?previousIndication}.\n" + "}";
 	}
 
-	public static String getSelectExampleQuery() {
+	public String getSelectExampleQuery() {
 		String patientId = "John Doe";
 		return Helper.PREFIXES_AERS + "SELECT DISTINCT " +
 				"?age \n" +
@@ -111,7 +111,7 @@ public class Query2 {
 			"";
 	}
 
-	public static String getConstructQuery() {
+	public String getConstructQuery() {
 		// TODO Auto-generated method stub
 		return null;
 	}

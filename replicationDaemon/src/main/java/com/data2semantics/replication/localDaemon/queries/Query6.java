@@ -2,9 +2,9 @@ package com.data2semantics.replication.localDaemon.queries;
 
 import com.data2semantics.replication.localDaemon.Helper;
 
-public class Query6 {
+public class Query6  implements Query {
 
-	public static String getInsertQuery() {
+	public String getInsertQuery() {
 		return Helper.PREFIXES_ANNOTATIONS_SWAN + "INSERT { GRAPH <http://eculture2.cs.vu.nl:5020/sparql/> {\n"
 				+ "?evidenceSummaryUri a  <http://aers.data2semantics.org/vocab/annotation/EvidenceSummaryAnnotation> .\n"
 				+ " 	?recommendationUri <http://aers.data2semantics.org/vocab/annotation/hasEvidenceSummary> ?evidenceSummaryUri .\n"
@@ -17,7 +17,7 @@ public class Query6 {
 				+ "   ?evidenceTgt oa:hasSource ?evidenceSrc . \n" + "   OPTIONAL { ?evidenceSrc owl:sameAs ?realSrc } .\n" + "}}\n" + "";
 	}
 
-	public static String getSelectAllQuery() {
+	public String getSelectAllQuery() {
 		return Helper.PREFIXES_ANNOTATIONS_SWAN
 				+ "SELECT DISTINCT ?realSrc ?evidenceSrc ?evidenceSummaryBody ?evidenceSummaryUri \n WHERE {"
 				+ "   ?evidenceSummaryUri a  <http://aers.data2semantics.org/vocab/annotation/EvidenceSummaryAnnotation> .\n "
@@ -26,7 +26,7 @@ public class Query6 {
 				+ "   ?evidenceTgt oa:hasSource ?evidenceSrc . \n" + "   OPTIONAL { ?evidenceSrc owl:sameAs ?realSrc } .\n" + "}";
 	}
 
-	public static String getSelectExampleQuery() {
+	public String getSelectExampleQuery() {
 		String recommendationUri = "http://aers.data2semantics.org/resource/annotation/2012-06-22T13:40:44/25e855bf1a657296936f69721cc9d1ad";
 		return Helper.PREFIXES_ANNOTATIONS_SWAN + "\n" +
 				"SELECT DISTINCT ?realSrc ?evidenceSrc ?evidenceSummaryBody ?evidenceSummaryUri \n WHERE {" +
@@ -39,7 +39,7 @@ public class Query6 {
 				"}" ;
 	}
 
-	public static String getConstructQuery() {
+	public String getConstructQuery() {
 		// TODO Auto-generated method stub
 		return null;
 	}

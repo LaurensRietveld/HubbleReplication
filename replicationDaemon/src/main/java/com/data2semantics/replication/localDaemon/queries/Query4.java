@@ -2,25 +2,35 @@ package com.data2semantics.replication.localDaemon.queries;
 
 import com.data2semantics.replication.localDaemon.Helper;
 
-public class Query4 {
+public class Query4  implements Query {
 
-	public static String getInsertQuery() {
-		return Helper.getInsertQuery(Helper.ENDPOINT_ECULTURE2, Helper.PREFIXES_AERS, "	?report :age ?age;\n"
-				+ "		:event_date ?eventDate;\n" + "		:gender ?gender;\n" + "		:manufacturer ?manufacturer.\n"
-				+ "	?involvement :involved_in ?report;\n" + "		:drug ?drugUri.\n" + "?drugUri	skos:exactMatch ?drugBankUri.\n"
-				+ "   ?drugBankUri <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/primaryAccessionNo> ?pan .\n"
-				+ "	?drugBankUri rdfs:label ?drugLabel.\n");
+	public String getInsertQuery() {
+		return Helper.getInsertQuery(Helper.ENDPOINT_ECULTURE2, Helper.PREFIXES_AERS, "	" +
+				   "?report :age ?age;\n"
+				+ "		:event_date ?eventDate;\n" + 
+				"		:gender ?gender;\n" + 
+				"		:manufacturer ?manufacturer.\n"
+				+ "	?involvement :involved_in ?report;\n" + 
+				"		:drug ?drugUri.\n" + 
+					"?drugUri	skos:exactMatch ?drugBankUri.\n"
+				+ 	"?drugBankUri <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/primaryAccessionNo> ?pan .\n"
+				+ 	"?drugBankUri rdfs:label ?drugLabel.\n");
 	}
 
-	public static String getSelectAllQuery() {
-		return Helper.PREFIXES_AERS + "SELECT * {\n" + "	?report :age ?age;\n" + "		:event_date ?eventDate;\n"
-				+ "		:gender ?gender;\n" + "		:manufacturer ?manufacturer.\n" + "	?involvement :involved_in ?report;\n"
-				+ "		:drug ?drugUri.\n" + "?drugUri	skos:exactMatch ?drugBankUri.\n"
-				+ "   ?drugBankUri <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/primaryAccessionNo> ?pan .\n"
+	public String getSelectAllQuery() {
+		return Helper.PREFIXES_AERS + "SELECT * {\n" + 
+				"	?report :age ?age;\n" + 
+				"		:event_date ?eventDate;\n"
+				+ "		:gender ?gender;\n" + 
+				"		:manufacturer ?manufacturer.\n" + 
+				"	?involvement :involved_in ?report;\n"
+				+ "		:drug ?drugUri.\n" + 
+					"?drugUri skos:exactMatch ?drugBankUri.\n"
+				+ 	"?drugBankUri <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/primaryAccessionNo> ?pan .\n"
 				+ "	?drugBankUri rdfs:label ?drugLabel.\n" + "}\n";
 	}
 
-	public static String getSelectExampleQuery() {
+	public String getSelectExampleQuery() {
 		String drugUri = "http://aers.data2semantics.org/resource/drug/AMBISOME";
 		return Helper.PREFIXES_AERS + "\n" + 
 				"SELECT DISTINCT \n" +
@@ -47,7 +57,7 @@ public class Query4 {
 				"LIMIT 100";
 	}
 
-	public static String getConstructQuery() {
+	public String getConstructQuery() {
 		// TODO Auto-generated method stub
 		return null;
 	}

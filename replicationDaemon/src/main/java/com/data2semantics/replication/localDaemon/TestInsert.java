@@ -1,6 +1,10 @@
 package com.data2semantics.replication.localDaemon;
 
+import org.openjena.atlas.logging.Log;
+
 import com.data2semantics.replication.localDaemon.queries.*;
+import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.sparql.resultset.ResultSetCompare;
 
 public class TestInsert {
 
@@ -115,11 +119,50 @@ public class TestInsert {
 	 * @param endpoint
 	 * @param prefixes
 	 * @param queryBody
+	 * @return 
 	 * @return
 	 */
 	
+	public static void testSelectAll(Query query) {
+		System.out.print("Select all: ");
+		Helper.clearTriples(Helper.ENDPOINT_REPLICA_UPDATE);
+		Helper.executeUpdateQuery(Helper.ENDPOINT_REPLICA_UPDATE, query.getInsertQuery());
+		ResultSet result1 = Helper.executeQuery(Helper.ENDPOINT_ECULTURE2, query.getSelectAllQuery());
+		ResultSet result2 = Helper.executeQuery(Helper.ENDPOINT_REPLICA, query.getSelectAllQuery());
+		Helper.compareResults(result1, result2);
+//		System.out.println(ResultSetCompare.equalsByValue(result1, result2));
+	}
+	
+	public static void testSelectExample(Query query) {
+		System.out.print("Select example: ");
+		Helper.clearTriples(Helper.ENDPOINT_REPLICA_UPDATE);
+		Helper.executeUpdateQuery(Helper.ENDPOINT_REPLICA_UPDATE, query.getInsertQuery());
+		ResultSet result1 = Helper.executeQuery(Helper.ENDPOINT_ECULTURE2, query.getSelectExampleQuery());
+		ResultSet result2 = Helper.executeQuery(Helper.ENDPOINT_REPLICA, query.getSelectExampleQuery());
+		Helper.compareResults(result1, result2);
+//		System.out.println(ResultSetCompare.equalsByValue(result1, result2));
+	}
+	
+	public static void test(Query query) {
+		System.out.println(query.getClass().getName() + ": ");
+		testSelectAll(query);
+		testSelectExample(query);
+		System.out.println("");
+	}
+	
 	public static void main(String[] args) {
-		System.out.println(Query6.getSelectExampleQuery());
+		Log.setLog4j();
+//		TestInsert.test(new Query1());//ok
+//		TestInsert.test(new Query2());//ok
+//		TestInsert.test(new Query3());//ok
+//		TestInsert.test(new Query4());//wrong
+//		TestInsert.test(new Query5a());//wrong (only select example)
+//		TestInsert.test(new Query5b());//wrong (only select example)
+//		TestInsert.test(new Query6());//ok
+//		TestInsert.test(new Query7());//wrong
+//		TestInsert.test(new Query8());//wrong
+		
+
 	}
 
 }

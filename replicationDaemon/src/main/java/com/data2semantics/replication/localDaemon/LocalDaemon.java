@@ -8,9 +8,6 @@ public class LocalDaemon {
 	}
 
 
-	
-	
-
 	public static void main(String[] args) throws IOException, InterruptedException {
 	}
 }

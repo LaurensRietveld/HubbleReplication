@@ -2,9 +2,9 @@ package com.data2semantics.replication.localDaemon.queries;
 
 import com.data2semantics.replication.localDaemon.Helper;
 
-public class Query7 {
+public class Query7  implements Query {
 
-	public static String getInsertQuery() {
+	public String getInsertQuery() {
 		return Helper.getInsertQuery(Helper.ENDPOINT_ECULTURE2, Helper.PREFIXES_ANNOTATIONS_SWAN,
 				"?recommendationUri  a d2sa:RecommendationAnnotation . " + "\n 		?recommendationUri oa:hasBody ?recommendationBody ."
 						+ "\n			?recommendationUri d2sa:hasEvidenceSummary ?es . "
@@ -14,7 +14,7 @@ public class Query7 {
 						+ "\n			?taga oax:hasSemanticTag ?tag .");
 	}
 
-	public static String getSelectAllQuery() {
+	public String getSelectAllQuery() {
 		return Helper.PREFIXES_ANNOTATIONS_SWAN + "\n	SELECT ?recommendationUri ?recommendationBody ?aerstag WHERE {"
 				+ "\n			?recommendationUri  a d2sa:RecommendationAnnotation . "
 				+ "\n 		?recommendationUri oa:hasBody ?recommendationBody ." + "\n			?recommendationUri d2sa:hasEvidenceSummary ?es . "
@@ -24,7 +24,7 @@ public class Query7 {
 				+ "\n}";
 	}
 
-	public static String getSelectExampleQuery() {
+	public String getSelectExampleQuery() {
 		String patientId = "John Doe";
 		return Helper.PREFIXES_ANNOTATIONS_SWAN + "\n	SELECT DISTINCT ?recommendationUri ?recommendationBody ?aerstag WHERE {" +
 				"\n			?recommendationUri  a d2sa:RecommendationAnnotation . " +
@@ -43,7 +43,7 @@ public class Query7 {
 				"\n}";
 	}
 
-	public static String getConstructQuery() {
+	public String getConstructQuery() {
 		// TODO Auto-generated method stub
 		return null;
 	}
