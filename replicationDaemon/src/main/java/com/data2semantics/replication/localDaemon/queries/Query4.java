@@ -5,7 +5,7 @@ import com.data2semantics.replication.localDaemon.Helper;
 public class Query4  implements Query {
 
 	public String getInsertQuery() {
-		return Helper.getInsertQuery(Helper.ENDPOINT_ECULTURE2, Helper.PREFIXES_AERS, "	" +
+		return Helper.getInsertQuery(Helper.ENDPOINT_PARTIAL_AERS, Helper.PREFIXES_AERS, "	" +
 				   "?report :age ?age;\n"
 				+ "		:event_date ?eventDate;\n" + 
 				"		:gender ?gender;\n" + 
@@ -18,7 +18,7 @@ public class Query4  implements Query {
 	}
 
 	public String getSelectAllQuery() {
-		return Helper.PREFIXES_AERS + "SELECT * {\n" + 
+		return Helper.PREFIXES_AERS + "SELECT DISTINCT * {\n" + 
 				"	?report :age ?age;\n" + 
 				"		:event_date ?eventDate;\n"
 				+ "		:gender ?gender;\n" + 

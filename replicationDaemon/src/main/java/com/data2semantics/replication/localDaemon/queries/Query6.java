@@ -5,12 +5,12 @@ import com.data2semantics.replication.localDaemon.Helper;
 public class Query6  implements Query {
 
 	public String getInsertQuery() {
-		return Helper.PREFIXES_ANNOTATIONS_SWAN + "INSERT { GRAPH <http://eculture2.cs.vu.nl:5020/sparql/> {\n"
+		return Helper.PREFIXES_ANNOTATIONS_SWAN + "INSERT { GRAPH <" + Helper.ENDPOINT_FOR_SERVICE_CALL + "> {\n"
 				+ "?evidenceSummaryUri a  <http://aers.data2semantics.org/vocab/annotation/EvidenceSummaryAnnotation> .\n"
 				+ " 	?recommendationUri <http://aers.data2semantics.org/vocab/annotation/hasEvidenceSummary> ?evidenceSummaryUri .\n"
 				+ "	?evidenceSummaryUri oa:hasBody ?evidenceSummaryBody .\n" + "   ?evidenceSummaryUri oa:hasTarget ?evidenceTgt . \n"
 				+ "   ?evidenceTgt oa:hasSource ?evidenceSrc . \n" + "   ?evidenceSrc owl:sameAs ?realSrc.\n" + "\n" + "}} WHERE {   \n"
-				+ "SERVICE <http://eculture2.cs.vu.nl:5020/sparql/> {\n"
+				+ "SERVICE <" + Helper.ENDPOINT_FOR_SERVICE_CALL + "> {\n"
 				+ "?evidenceSummaryUri a  <http://aers.data2semantics.org/vocab/annotation/EvidenceSummaryAnnotation> .\n"
 				+ " 	?recommendationUri <http://aers.data2semantics.org/vocab/annotation/hasEvidenceSummary> ?evidenceSummaryUri .\n"
 				+ "	?evidenceSummaryUri oa:hasBody ?evidenceSummaryBody .\n" + "   ?evidenceSummaryUri oa:hasTarget ?evidenceTgt . \n"

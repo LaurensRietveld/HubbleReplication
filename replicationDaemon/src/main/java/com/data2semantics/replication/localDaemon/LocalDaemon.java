@@ -1,6 +1,7 @@
 package com.data2semantics.replication.localDaemon;
 
-import java.io.IOException;
+import com.data2semantics.replication.localDaemon.queries.Query;
+import com.data2semantics.replication.localDaemon.queries.Query2;
 
 public class LocalDaemon {
 
@@ -8,6 +9,8 @@ public class LocalDaemon {
 	}
 
 
-	public static void main(String[] args) throws IOException, InterruptedException {
+	public static void main(String[] args)  {
+		Query query = new Query2();
+		System.out.println(query.getSelectAllQuery());
 	}
 }

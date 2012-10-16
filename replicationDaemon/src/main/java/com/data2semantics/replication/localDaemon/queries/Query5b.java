@@ -5,7 +5,7 @@ import com.data2semantics.replication.localDaemon.Helper;
 public class Query5b  implements Query {
 
 	public String getInsertQuery() {
-		return Helper.PREFIXES_AERS + "INSERT { GRAPH <http://eculture2.cs.vu.nl:5020/sparql/> {\n"
+		return Helper.PREFIXES_AERS + "INSERT { GRAPH <" + Helper.ENDPOINT_FOR_SERVICE_CALL + "> {\n"
 				+ "?indicationUri skos:exactMatch ?ind . ?ind :reaction_of ?report . \n" + "	?report :age ?age;\n"
 				+ "		:event_date ?eventDate;\n" + "		:gender ?gender;\n" + "		:manufacturer ?manufacturer.\n"
 				+ "	?involvement :involved_in ?report;\n" + "		:drug ?drug.\n"
@@ -13,7 +13,7 @@ public class Query5b  implements Query {
 				+ "	?drug skos:exactMatch ?drugBankUri.\n"
 				+ "   ?drugBankUri <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/primaryAccessionNo> ?pan .\n"
 				+ "	?drugBankUri rdfs:label ?drugLabel.\n" + "\n" + "}} WHERE { \n"
-				+ "SERVICE <http://eculture2.cs.vu.nl:5020/sparql/> {\n"
+				+ "SERVICE <" + Helper.ENDPOINT_FOR_SERVICE_CALL + "> {\n"
 				+ "?indicationUri skos:exactMatch ?ind . ?ind :reaction_of ?report . \n" + "	?report :age ?age;\n"
 				+ "		:event_date ?eventDate;\n" + "		:gender ?gender;\n" + "		:manufacturer ?manufacturer.\n"
 				+ "	?involvement :involved_in ?report;\n" + "		:drug ?drug.\n"
@@ -24,14 +24,14 @@ public class Query5b  implements Query {
 	}
 
 	public String getSelectAllQuery() {
-		return Helper.PREFIXES_AERS + "SELECT * {\n"
+		return Helper.PREFIXES_AERS + "SELECT DISTINCT * {\n"
 				+ "	{?indicationLabel :reaction_of ?report.} UNION { ?indicationUri skos:exactMatch ?ind . ?ind :reaction_of ?report . }\n"
 				+ "	?report :age ?age;\n" + "		:event_date ?eventDate;\n" + "		:gender ?gender;\n" + "		:manufacturer ?manufacturer.\n"
 				+ "	?involvement :involved_in ?report;\n" + "		:drug ?drug.\n"
 				+ "	?involvement :drug_role <http://aers.data2semantics.org/resource/drug/role/PS>.\n"
 				+ "	?drug skos:exactMatch ?drugBankUri.\n"
 				+ "   ?drugBankUri <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/primaryAccessionNo> ?pan .\n"
-				+ "	?drugBankUri rdfs:label ?drugLabel.\n" + "}\n" + "LIMIT 100";
+				+ "	?drugBankUri rdfs:label ?drugLabel.\n" + "}\n" ;
 	}
 
 	public String getSelectExampleQuery() {
@@ -62,7 +62,7 @@ public class Query5b  implements Query {
 				"	?drugBankUri rdfs:label ?drugLabel.\n" +
 //				"	FILTER regex(str(?drugBankUri), \"^http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugs/DB\", \"i\")\n" + 
 				"}\n" + 
-				"LIMIT 100";
+				"";
 	}
 
 	public String getConstructQuery() {

@@ -1,5 +1,7 @@
 package com.data2semantics.replication.localDaemon;
 
+import java.util.regex.Pattern;
+
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -9,14 +11,18 @@ import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.query.ResultSetFormatter;
+import com.hp.hpl.jena.query.ResultSetFactory;
 
 public class Helper {
 	public static String ENDPOINT_ECULTURE2 = "http://eculture2.cs.vu.nl:5020/sparql/";
-	public static String ENDPOINT_ECULTURE2_UPDATE = "http://eculture2.cs.vu.nl:5020/update/";
-	public static String ENDPOINT_REPLICA = "http://localhost:8080/openrdf-workbench/repositories/localrep/query";
-	public static String ENDPOINT_REPLICA_UPDATE = "http://localhost:8080/openrdf-workbench/repositories/localrep/update";
+//	public static String ENDPOINT_PARTIAL_AERS = "http://localhost:8080/openrdf-workbench/repositories/aers/query";
+	public static String ENDPOINT_PARTIAL_AERS = "http://aers.data2semantics.org:8080/openrdf-workbench/repositories/aers/query";
+	public static String ENDPOINT_REPLICA = "http://localhost:8080/openrdf-workbench/repositories/replica/query";
+	public static String ENDPOINT_REPLICA_UPDATE = "http://localhost:8080/openrdf-workbench/repositories/replica/update";
 	public static String ENDPOINT_LLD = "http://linkedlifedata.com/sparql";
+	public static String PROXY = "http://localhost:8080/sparqlProxy/";
+//	public static String ENDPOINT_FOR_SERVICE_CALL = ENDPOINT_PARTIAL_AERS;
+	public static String ENDPOINT_FOR_SERVICE_CALL = ENDPOINT_ECULTURE2;
 
 	public static String PREFIXES_PATIENT = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
 			+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
@@ -54,11 +60,42 @@ public class Helper {
 				+ queryBody + "\n" + "}}";
 	}
 
-	public static ResultSet executeQuery(String endpoint, String queryString) {
-		Query query = QueryFactory.create(queryString);
-		QueryExecution queryExecution = QueryExecutionFactory.sparqlService(endpoint, query);
-		return queryExecution.execSelect();
+	public static ResultSet executeQuery(String endpoint, String queryString) throws Exception {
+		ResultSet result = null;
+		try {
+			Query query = QueryFactory.create(queryString);
+			QueryExecution queryExecution = QueryExecutionFactory.sparqlService(endpoint, query);
+			result = queryExecution.execSelect();
+		} catch (Exception e) {
+			//If exception is thrown, this might mean that jena failed to parse the empty resultset of sesame :S
+			//Check by rewriting into ask query
+			System.out.println("");
+			System.out.print("exception. Rewriting into ask query: ");
+			
+			if (executeAskQueryForSelect(endpoint, queryString) == false) {
+				System.out.println("resultset empty");
+				result = getEmptyResultSet();
+			} else {
+				throw e;
+			}
+		}
+		return result;
 		
+	}
+	
+	private static ResultSet getEmptyResultSet() {
+		return ResultSetFactory.fromXML("<sparql xmlns=\"http://www.w3.org/2005/sparql-results#\">\n" + 
+				"<head></head>\n" + 
+				"<results></results>\n" + 
+				"</sparql>");
+		
+	}
+	
+	public static boolean executeAskQueryForSelect(String endpoint, String queryString) {
+		String askQueryString = Pattern.compile("(.*)(SELECT [\\w\\s\\?\\(\\)]*)(\\{.*)", Pattern.DOTALL | Pattern.MULTILINE | Pattern.CASE_INSENSITIVE ).matcher(queryString).replaceAll("$1ASK $3");
+		Query query = QueryFactory.create(askQueryString);
+		QueryExecution queryExecution = QueryExecutionFactory.sparqlService(endpoint, query);
+		return queryExecution.execAsk();
 	}
 	
 	public static void compareResults(ResultSet result1, ResultSet result2) {
@@ -90,6 +127,7 @@ public class Helper {
 		//HttpOp.execHttpPost(endpoint, "application/x-www-form-urlencoded", "update=" + queryString);
 		
 		//Just a custom post request which works
+		System.out.print("*executing update query* ");
 		execHttpPost(endpoint, "update=" + queryString, "application/x-www-form-urlencoded");
 	}
 
@@ -111,6 +149,7 @@ public class Helper {
 	}
 
 	public static void clearTriples(String endpoint) {
+		System.out.print("*clearing triples* ");
 		String query = "DELETE {?x ?y ?z} WHERE {?x ?y ?z}";
 		executeUpdateQuery(endpoint, query);
 

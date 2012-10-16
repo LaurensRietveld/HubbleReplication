@@ -5,7 +5,7 @@ import com.data2semantics.replication.localDaemon.Helper;
 public class Query1  implements Query {
 
 	public String getInsertQuery() {
-		return Helper.getInsertQuery(Helper.ENDPOINT_ECULTURE2, Helper.PREFIXES_PATIENT, "?patient rdf:type patient:Patient.\n"
+		return Helper.getInsertQuery(Helper.ENDPOINT_FOR_SERVICE_CALL, Helper.PREFIXES_PATIENT, "?patient rdf:type patient:Patient.\n"
 				+ "?patient rdfs:label ?patientID.\n");
 	}
 	

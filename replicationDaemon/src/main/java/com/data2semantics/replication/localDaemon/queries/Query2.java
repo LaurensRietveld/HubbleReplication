@@ -6,7 +6,7 @@ public class Query2  implements Query {
 
 	public String getInsertQuery() {
 		return Helper.PREFIXES_AERS
-				+ "INSERT { GRAPH <http://eculture2.cs.vu.nl:5020/sparql/> {\n"
+				+ "INSERT { GRAPH <"+ Helper.ENDPOINT_FOR_SERVICE_CALL + "> {\n"
 				+ "?patient rdf:type patient:Patient.\n"
 				+ "?patient rdfs:label ?patientLabel.\n"
 				+ "?patient patient:hasAge ?age.\n"
@@ -26,7 +26,7 @@ public class Query2  implements Query {
 				+ "?patient patient:hadPreviousIndication ?previousIndication.\n"
 				+ "\n"
 				+ "}} WHERE { \n"
-				+ "SERVICE <http://eculture2.cs.vu.nl:5020/sparql/> {\n"
+				+ "SERVICE <" + Helper.ENDPOINT_FOR_SERVICE_CALL + "> {\n"
 				+ "?patient rdf:type patient:Patient.\n"
 				+ "?patient rdfs:label ?patientLabel.\n"
 				+ "?patient patient:hasAge ?age.\n"

@@ -5,12 +5,12 @@ import com.data2semantics.replication.localDaemon.Helper;
 public class Query8 implements Query {
 
 	public String getInsertQuery() {
-		return Helper.PREFIXES_ANNOTATIONS_SWAN + "INSERT { GRAPH <http://eculture2.cs.vu.nl:5020/sparql/> {\n"
+		return Helper.PREFIXES_ANNOTATIONS_SWAN + "INSERT { GRAPH <" + Helper.ENDPOINT_FOR_SERVICE_CALL + "> {\n"
 				+ "   ?evidenceUri a  <http://aers.data2semantics.org/vocab/annotation/EvidenceAnnotation> . \n"
 				+ "?evidenceSummaryUri <http://purl.org/swan/2.0/discourse-relationships/referencesAsSupportingEvidence> ?evidenceUri .\n"
 				+ "	?evidenceUri oa:hasBody ?evidenceBody .\n" + "   ?evidenceUri oa:hasTarget ?evidenceTgt . \n"
 				+ "   ?evidenceTgt oa:hasSource ?evidenceSrc . \n" + "   ?evidenceSrc owl:sameAs ?realSrc  .\n" + "}\n" + "} WHERE { \n"
-				+ "SERVICE <http://eculture2.cs.vu.nl:5020/sparql/> {\n"
+				+ "SERVICE <" + Helper.ENDPOINT_FOR_SERVICE_CALL + "> {\n"
 				+ "   ?evidenceUri a  <http://aers.data2semantics.org/vocab/annotation/EvidenceAnnotation> . \n"
 				+ "?evidenceSummaryUri <http://purl.org/swan/2.0/discourse-relationships/referencesAsSupportingEvidence> ?evidenceUri .\n"
 				+ "	?evidenceUri oa:hasBody ?evidenceBody .\n" + "   ?evidenceUri oa:hasTarget ?evidenceTgt . \n"
@@ -19,7 +19,7 @@ public class Query8 implements Query {
 	}
 
 	public String getSelectAllQuery() {
-		return Helper.PREFIXES_ANNOTATIONS_SWAN + "SELECT * WHERE {"
+		return Helper.PREFIXES_ANNOTATIONS_SWAN + "SELECT DISTINCT * WHERE {"
 				+ "   ?evidenceUri a  <http://aers.data2semantics.org/vocab/annotation/EvidenceAnnotation> . \n"
 				+ "?evidenceSummaryUri <http://purl.org/swan/2.0/discourse-relationships/referencesAsSupportingEvidence> ?evidenceUri .\n"
 				+ "	?evidenceUri oa:hasBody ?evidenceBody .\n" + "   ?evidenceUri oa:hasTarget ?evidenceTgt . \n"

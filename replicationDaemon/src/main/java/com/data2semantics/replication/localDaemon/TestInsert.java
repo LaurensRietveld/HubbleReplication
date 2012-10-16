@@ -1,10 +1,10 @@
 package com.data2semantics.replication.localDaemon;
 
 import org.openjena.atlas.logging.Log;
-
 import com.data2semantics.replication.localDaemon.queries.*;
 import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.sparql.resultset.ResultSetCompare;
+//import com.hp.hpl.jena.query.ResultSetFormatter;
+import com.hp.hpl.jena.query.ResultSetFormatter;
 
 public class TestInsert {
 
@@ -121,47 +121,93 @@ public class TestInsert {
 	 * @param queryBody
 	 * @return 
 	 * @return
+	 * @throws Exception 
 	 */
 	
-	public static void testSelectAll(Query query) {
+	public static void testSelectAll(Query query) throws Exception {
 		System.out.print("Select all: ");
 		Helper.clearTriples(Helper.ENDPOINT_REPLICA_UPDATE);
 		Helper.executeUpdateQuery(Helper.ENDPOINT_REPLICA_UPDATE, query.getInsertQuery());
-		ResultSet result1 = Helper.executeQuery(Helper.ENDPOINT_ECULTURE2, query.getSelectAllQuery());
+		ResultSet result1 = Helper.executeQuery(Helper.ENDPOINT_PARTIAL_AERS, query.getSelectAllQuery());
 		ResultSet result2 = Helper.executeQuery(Helper.ENDPOINT_REPLICA, query.getSelectAllQuery());
 		Helper.compareResults(result1, result2);
 //		System.out.println(ResultSetCompare.equalsByValue(result1, result2));
 	}
 	
-	public static void testSelectExample(Query query) {
+	public static void testSelectExample(Query query) throws Exception {
 		System.out.print("Select example: ");
 		Helper.clearTriples(Helper.ENDPOINT_REPLICA_UPDATE);
 		Helper.executeUpdateQuery(Helper.ENDPOINT_REPLICA_UPDATE, query.getInsertQuery());
-		ResultSet result1 = Helper.executeQuery(Helper.ENDPOINT_ECULTURE2, query.getSelectExampleQuery());
+		ResultSet result1 = Helper.executeQuery(Helper.ENDPOINT_PARTIAL_AERS, query.getSelectExampleQuery());
 		ResultSet result2 = Helper.executeQuery(Helper.ENDPOINT_REPLICA, query.getSelectExampleQuery());
 		Helper.compareResults(result1, result2);
 //		System.out.println(ResultSetCompare.equalsByValue(result1, result2));
 	}
 	
-	public static void test(Query query) {
+	public static void test(Query query) throws Exception {
 		System.out.println(query.getClass().getName() + ": ");
 		testSelectAll(query);
 		testSelectExample(query);
 		System.out.println("");
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		Log.setLog4j();
-//		TestInsert.test(new Query1());//ok
-//		TestInsert.test(new Query2());//ok
-//		TestInsert.test(new Query3());//ok
-//		TestInsert.test(new Query4());//wrong
-//		TestInsert.test(new Query5a());//wrong (only select example)
-//		TestInsert.test(new Query5b());//wrong (only select example)
-//		TestInsert.test(new Query6());//ok
-//		TestInsert.test(new Query7());//wrong
-//		TestInsert.test(new Query8());//wrong
 		
+		Query query = new Query2();
+//		System.out.println(query.getSelectExampleQuery());
+//		System.out.println(query.getSelectAllQuery());
+//		System.out.println(query.getInsertQuery());
+//		System.out.println(ResultSetFormatter.asText(Helper.executeQuery(Helper.ENDPOINT_LOCAL_AERS, query.getSelectExampleQuery())));
+		
+		
+		//1: local aers copy, 2: replica
+//		Select all: Result1: 16 - Result2: 77
+//		Select example: Result1: 3 - Result2: 12
+//		TestInsert.test(query);//select all -and- select example gaan fout
+		
+//		System.out.println(query.getInsertQuery());
+//		System.out.println(query.getSelectAllQuery());
+//		System.out.println(query.getSelectExampleQuery());
+		
+		
+//		TestInsert.test(new Query2());//ok
+//		
+//		System.out.println(ResultSetFormatter.asText(Helper.executeQuery(Helper.ENDPOINT_LOCAL_AERS, query.getSelectExampleQuery())));
+//		System.out.println(ResultSetFormatter.asText(Helper.executeQuery(Helper.ENDPOINT_REPLICA, query.getSelectExampleQuery())));
+//		
+//		TestInsert.test(new Query1());
+//		TestInsert.test(new Query2());
+//		TestInsert.test(new Query3());
+//		TestInsert.test(new Query4());
+//		TestInsert.test(new Query5a());
+		TestInsert.test(new Query5b());
+		TestInsert.test(new Query6());
+		TestInsert.test(new Query7());
+		TestInsert.test(new Query8());
+		/**
+		sesame for -part of- original aers dataset:
+			query1: ok
+			query2: ok
+			query3: ok
+			query4: ok
+			query5a: select example ok, select all ?
+			query5b: 
+			query6: zero
+			query7: zero
+			query8: zero
+		
+		4store for original aers dataset:
+			query1: ok
+			query2: ok
+			query3: ok
+			query4: wrong (only select example. select all also wrong, but when you add a distinct the number is the same)
+			query5a: wrong (only select example)
+			query5b: wrong (only select example)
+			query6: ok
+			query7: wrong (only select example. select all also wrong, but when you add a distinct the number is the same)
+			query8: wrong: select all produces different numbers (also when using distinct. more results in replica than original). Select example returns zero for both
+		 **/
 
 	}
 

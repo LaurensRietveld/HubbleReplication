@@ -5,7 +5,7 @@ import com.data2semantics.replication.localDaemon.Helper;
 public class Query7  implements Query {
 
 	public String getInsertQuery() {
-		return Helper.getInsertQuery(Helper.ENDPOINT_ECULTURE2, Helper.PREFIXES_ANNOTATIONS_SWAN,
+		return Helper.getInsertQuery(Helper.ENDPOINT_FOR_SERVICE_CALL, Helper.PREFIXES_ANNOTATIONS_SWAN,
 				"?recommendationUri  a d2sa:RecommendationAnnotation . " + "\n 		?recommendationUri oa:hasBody ?recommendationBody ."
 						+ "\n			?recommendationUri d2sa:hasEvidenceSummary ?es . "
 						+ "\n		    ?es swanrel:referencesAsSupportingEvidence ?ev ." + "\n 		?ev oa:hasTarget ?tg ."
@@ -15,7 +15,7 @@ public class Query7  implements Query {
 	}
 
 	public String getSelectAllQuery() {
-		return Helper.PREFIXES_ANNOTATIONS_SWAN + "\n	SELECT ?recommendationUri ?recommendationBody ?aerstag WHERE {"
+		return Helper.PREFIXES_ANNOTATIONS_SWAN + "\n	SELECT DISTINCT ?recommendationUri ?recommendationBody ?aerstag WHERE {"
 				+ "\n			?recommendationUri  a d2sa:RecommendationAnnotation . "
 				+ "\n 		?recommendationUri oa:hasBody ?recommendationBody ." + "\n			?recommendationUri d2sa:hasEvidenceSummary ?es . "
 				+ "\n		    ?es swanrel:referencesAsSupportingEvidence ?ev ." + "\n 		?ev oa:hasTarget ?tg ." + "\n 		?tg oa:hasSource ?s ."
